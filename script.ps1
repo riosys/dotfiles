@@ -9,11 +9,10 @@ function Install-Program {
 # Instalar programas necesarios
 Install-Program "Google.Chrome"
 Install-Program "Microsoft.VisualStudioCode"
-Install-Program "Google.Chrome"
 Install-Program "Brave.Brave"
 Install-Program "Microsoft.PowerShell"
-Install-Program "Microsoft.VisualStudioCode"
 Install-Program "Neovim.Neovim"
+Install-Program "CoreyButler.NVMforWindows"
 Install-Program "JanDeDobbeleer.OhMyPosh"
     
 # Terminal-Icons install
