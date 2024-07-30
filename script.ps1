@@ -8,10 +8,12 @@ function Install-Program {
     
 # Instalar programas necesarios
 Install-Program "Microsoft.VisualStudioCode"
+Install-Program "CoreyButler.NVMforWindows"
 Install-Program "JanDeDobbeleer.OhMyPosh"
 Install-Program "Microsoft.PowerShell"
 Install-Program "Discord.Discord"
 Install-Program "Neovim.Neovim"
+Install-Program "Google.Chrome"
 Install-Program "Brave.Brave"
 Install-Program "Valve.Steam"
     
