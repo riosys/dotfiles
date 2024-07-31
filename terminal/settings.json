@@ -22,12 +22,13 @@
                 "split": "auto",
                 "splitMode": "duplicate"
             },
-            "keys": "alt+shift+d"
+            "keys": "alt+shift+p"
         },
         {
-            "command": "find",
-            "keys": "ctrl+shift+f"
+            "command": "closePane",
+            "keys": "alt+shift+o"
         }
+
     ],
     "alwaysShowTabs": false,
     "centerOnLaunch": true,
