@@ -22,7 +22,7 @@
                     "foreground": "p:white",
                     "properties": {
                         
-                        "windows": " 󱓇  󱓇 ",
+                        "windows": "", 
                         "linux": "\uf17c",
                         "ubuntu": "\uf31b",
                         "macos": "\uf179"
