@@ -21,7 +21,8 @@
                     "background": "#ff81cb",
                     "foreground": "p:white",
                     "properties": {
-                        "windows": "\udb82\udfc8",
+                        
+                        "windows": " 󱓇  󱓇 ",
                         "linux": "\uf17c",
                         "ubuntu": "\uf31b",
                         "macos": "\uf179"
@@ -34,14 +35,14 @@
                     "background": "p:white",
                     "foreground": "p:black",
                     "style": "plain",
-                    "template": " \uf489 {{.Name}}\u2800",
+                    "template": " 󰆍 {{.Name}}\u2800",
                     "type": "shell"
                 },
                 {
                     "background": "#555555",
                     "foreground": "p:white",
                     "style": "plain",
-                    "template": " \uf2c0 {{.HostName}}\ue0bd{{.UserName}}\u2800",
+                    "template": " 󰚗 {{.HostName}} \ue0bd  {{.UserName}}\u2800",
                     "type": "session"
                 },
                 {
@@ -59,11 +60,12 @@
                     "foreground": "#3C873A",
                     "properties": {
                         "fetch_package_manager": true,
-                        "npm_icon": " <#cc3a3a>\ue5fa</> ",
-                        "yarn_icon": " <#348cba>\ue6a7</>"
+                        "pnpm_icon": " <#da6933>󰵆</> ",
+                        "yarn_icon": " <#348cba></> ",
+                        "npm_icon": " <#e21515></> "
                     },
                     "style": "plain",
-                    "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
+                    "template": "  {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
                     "type": "node"
                 }
             ]
@@ -82,7 +84,7 @@
                         "style": "agnoster_full",
                         "home_icon": "\ueb06 ",
                         "folder_icon": "\uf07b",
-                        "folder_separator_icon": " <#ffffd6>\ue602</> "
+                        "folder_separator_icon": " <#ffffd6>󱧯 </> "
                     },
                     "template": "<p:white>\u2514</><#ff81cb>[</> {{ .Path }} <#ff81cb>]</>"
                 }
