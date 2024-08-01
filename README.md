@@ -1,4 +1,4 @@
-# 🌟 My Dotfiles 🌟
+# My Dotfiles 🗃️
 
 Welcome to my dotfiles repository! This repository contains configuration files and scripts to set up my development environment on both 🪟 Windows and 🐧 Linux.
 
@@ -25,6 +25,20 @@ Welcome to my dotfiles repository! This repository contains configuration files 
 
 <h3 id="windows">🪟 Windows</h3>
 
+#### Antes de continuar con los pasos principales de instalación, asegúrese de tener Git instalado en su PC con Windows 11. Siga estos pasos para instalar Git mediante la terminal:
+
+<details>
+<summary>🛠️ Click here if it's a new computer </summary>
+
+#### Open PowerShell and install Git
+
+```powershell
+    winget update --all
+    winget install --id git.git
+```
+
+</details>
+
 1. **Clone the repository:**
 
    ```powershell
@@ -39,7 +53,7 @@ Welcome to my dotfiles repository! This repository contains configuration files 
    .\script.ps1
    ```
 
-<h3 id="linux">🐧Linux</h3>
+<h3 id="linux">🐧 Linux</h3>
 
 1. **Clone the repository:**
 
