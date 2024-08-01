@@ -36,9 +36,9 @@ if ($response -eq '' -or $response -eq 'y') {
             Write-Host "`t` `t` $programName ha sido instalado." -ForegroundColor $successColor
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
         } else {
-            Write-Host "`t`---------------------------------------------" -ForegroundColor $infoColor
+            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
             Write-Host "`t` `t` $programName no será instalado." -ForegroundColor $errorColor
-            Write-Host "`t`---------------------------------------------" -ForegroundColor $infoColor
+            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
         }
     }
 
@@ -46,6 +46,7 @@ if ($response -eq '' -or $response -eq 'y') {
     Install-Program "Microsoft.VisualStudioCode"
     Install-Program "CoreyButler.NVMforWindows"
     Install-Program "Microsoft.WindowsTerminal"
+    Install-Program "JanDeDobbeleer.OhMyPosh"
     Install-Program "Microsoft.Powershell"
     Install-Program "Python.Python.3.12"
     Install-Program "Discord.Discord"
