@@ -52,7 +52,7 @@
       "opacity": 90,
       "padding": "10",
       "scrollbarState": "hidden",
-      "startingDirectory": "D:\\Dev",
+      "startingDirectory": "%USERPROFILE%",
       "useAcrylic": false
     },
     "list": [
