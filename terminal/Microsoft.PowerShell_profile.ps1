@@ -8,6 +8,3 @@ Import-Module Terminal-Icons
 Set-Alias n nvim
 Set-Alias c code
 Set-Alias lvim 'C:\Users\rios\.local\bin\lvim.ps1'
-
-# Init terminal with lvim
-lvim
