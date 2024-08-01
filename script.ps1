@@ -33,11 +33,11 @@ if ($response -eq '' -or $response -eq 'y') {
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
             winget install --id $programName
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t`$programName ha sido instalado." -ForegroundColor $successColor
+            Write-Host "`t` `t` $programName ha sido instalado." -ForegroundColor $successColor
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
         } else {
             Write-Host "`t`---------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t`$programName no será instalado." -ForegroundColor $errorColor
+            Write-Host "`t` `t` $programName no será instalado." -ForegroundColor $errorColor
             Write-Host "`t`---------------------------------------------" -ForegroundColor $infoColor
         }
     }
@@ -46,6 +46,7 @@ if ($response -eq '' -or $response -eq 'y') {
     Install-Program "Microsoft.VisualStudioCode"
     Install-Program "CoreyButler.NVMforWindows"
     Install-Program "Microsoft.WindowsTerminal"
+    Install-Program "Microsoft.Powershell"
     Install-Program "Python.Python.3.12"
     Install-Program "Discord.Discord"
     Install-Program "Neovim.Neovim"
@@ -64,7 +65,7 @@ if ($response -eq '' -or $response -eq 'y') {
 }
 
 # Terminal-Icons install
-Install-Module -Name Terminal-Icons -Repository PSGallery -Force
+Start-Process powershell -ArgumentList '-NoProfile -NoExit -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force; exit"'
 # Lanzar una nueva terminal para ejecutar comandos específicos
 Start-Process "powershell" "-NoProfile", "oh-my-posh font install JetBrainsMono" -Wait
 

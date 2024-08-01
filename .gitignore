@@ -1,1 +1,2 @@
-./.vscode/ # carpeta de configuración de vscode
+.vscode/ # carpeta de configuración de vscode
+.vscode/settings.json
