@@ -24,9 +24,9 @@ if ($response -eq '' -or $response -eq 'y') {
         param (
             [string]$programName
         )
-    Write-Host " "
-    $response = ColoredRead-Host "Quieres instalar? $programName (y/n)"
-    Write-Host " "
+        Write-Host " "
+        $response = ColoredRead-Host "Quieres instalar? $programName (y/n)"
+        Write-Host " "
         if ($response -eq '' -or $response -eq 'y') {
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
             Write-Host "`t` `t`Instalando $programName" -ForegroundColor $infoColor
@@ -65,10 +65,23 @@ if ($response -eq '' -or $response -eq 'y') {
     Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
 }
 
+Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
+Write-Host "`t` `t`Instalando Terminal Icons..." -ForegroundColor $promptColor
+Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 # Terminal-Icons install
-Start-Process powershell -ArgumentList '-NoProfile -NoExit -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force; exit"'
+Start-Process pwsh -ArgumentList '-NoProfile -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force"' -Wait
+# Start-Process pwsh -ArgumentList '-NoProfile -NoExit -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force; exit"'
 # Lanzar una nueva terminal para ejecutar comandos específicos
-Start-Process "powershell" "-NoProfile", "oh-my-posh font install JetBrainsMono" -Wait
+
+Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
+Write-Host "`t` `t`Instalando JetBrainsMono NerdFont..." -ForegroundColor $promptColor
+Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
+
+Start-Process pwsh -ArgumentList '"-NoProfile" -Command "oh-my-posh font install JetBrainsMono"' -Wait
+
+Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
+Write-Host "`t` `t`Configurando archivos..." -ForegroundColor $promptColor
+Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 
 # Copiar configuración de Windows Terminal
 $terminalConfigPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
@@ -89,3 +102,7 @@ Copy-Item -Path "C:\Users\rios\.dotfiles\terminal\Microsoft.PowerShell_profile.p
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
 Write-Host "`t` `t`Configuracion Finalizada!" -ForegroundColor $infoColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
+
+# Abrir una nueva terminal y cerrar la actual
+Start-Process pwsh
+exit 
