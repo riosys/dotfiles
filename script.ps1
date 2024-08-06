@@ -75,8 +75,7 @@ Write-Host "`t`----------------------------------------------------" -Foreground
 Write-Host "`t` `t`Instalando JetBrainsMono NerdFont..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 # oh-my-posh font install
-# Start-Process pwsh -ArgumentList '"-NoProfile" -Command "C:\Users\rios\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono"' -Wait
-C:\Users\rios\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono
+Start-Process pwsh -ArgumentList '"-NoProfile" -Command "C:\Users\rios\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono"' -Wait
 
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
