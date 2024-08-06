@@ -75,21 +75,19 @@ Write-Host "`t`----------------------------------------------------" -Foreground
 Write-Host "`t` `t`Instalando JetBrainsMono NerdFont..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 # oh-my-posh font install
-Start-Process pwsh -ArgumentList '"-NoProfile" -Command "C:\Users\rios\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono"' -Wait
-
+Start-Process pwsh -ArgumentList "-NoProfile -Command `"$env:LOCALAPPDATA\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono`"" -Wait
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 Write-Host "`t` `t`Configurando archivos..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 
-# Start-Sleep -Seconds 3
 # Copiar configuración de Windows Terminal
 $terminalConfigPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 if (-Not (Test-Path -Path $terminalConfigPath)) {
     New-Item -ItemType Directory -Force -Path $terminalConfigPath
 }
 
-Copy-Item -Path "C:\Users\rios\.dotfiles\terminal\settings.json" -Destination "$terminalConfigPath\settings.json" -Force
+Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\settings.json" -Destination "$terminalConfigPath\settings.json" -Force
 
 # Copiar configuración de PowerShell
 $profileDirectory = Split-Path -Path $PROFILE -Parent
@@ -97,7 +95,7 @@ if (-Not (Test-Path -Path $profileDirectory)) {
     New-Item -ItemType Directory -Force -Path $profileDirectory
 }
 
-Copy-Item -Path "C:\Users\rios\.dotfiles\terminal\Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
+Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
 Write-Host "`t` `t`Configuracion Finalizada!" -ForegroundColor $infoColor
