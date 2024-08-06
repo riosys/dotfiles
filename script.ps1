@@ -70,19 +70,20 @@ Write-Host "`t` `t`Instalando Terminal Icons..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 # Terminal-Icons install
 Start-Process pwsh -ArgumentList '-NoProfile -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force"' -Wait
-# Start-Process pwsh -ArgumentList '-NoProfile -NoExit -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force; exit"'
-# Lanzar una nueva terminal para ejecutar comandos específicos
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 Write-Host "`t` `t`Instalando JetBrainsMono NerdFont..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
+# oh-my-posh font install
+# Start-Process pwsh -ArgumentList '"-NoProfile" -Command "C:\Users\rios\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono"' -Wait
+C:\Users\rios\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono
 
-Start-Process pwsh -ArgumentList '"-NoProfile" -Command "oh-my-posh font install JetBrainsMono"' -Wait
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 Write-Host "`t` `t`Configurando archivos..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 
+# Start-Sleep -Seconds 3
 # Copiar configuración de Windows Terminal
 $terminalConfigPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 if (-Not (Test-Path -Path $terminalConfigPath)) {
@@ -105,4 +106,4 @@ Write-Host "`t`----------------------------------------------------" -Foreground
 
 # Abrir una nueva terminal y cerrar la actual
 Start-Process pwsh
-exit 
+exit
