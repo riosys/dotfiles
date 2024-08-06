@@ -90,11 +90,18 @@ if (-Not (Test-Path -Path $terminalConfigPath)) {
 Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\settings.json" -Destination "$terminalConfigPath\settings.json" -Force
 
 # Copy PowerShell configuration
+# Asigna manualmente la ruta correcta a la variable $PROFILE
+$PROFILE = "$env:USERPROFILE\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+
+# Obtiene el directorio del perfil
 $profileDirectory = Split-Path -Path $PROFILE -Parent
+
+# Verifica si el directorio del perfil no existe y lo crea si es necesario
 if (-Not (Test-Path -Path $profileDirectory)) {
     New-Item -ItemType Directory -Force -Path $profileDirectory
 }
 
+# Copia el archivo de perfil de PowerShell al destino especificado en $PROFILE
 Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
