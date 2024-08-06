@@ -1,11 +1,11 @@
-# Definir colores usando el tema Catppuccin Mocha
+# Define colors using the Catppuccin Mocha theme
 $promptColor = "DarkGreen"  # F9E2AF
 $defaultColor = "Red"  # CDD6F4
 $successColor = "yellow"  # A6E3A1
 $errorColor = "DarkMagenta"  # F38BA8
 $infoColor = "DarkCyan"  # 89DCEB
 
-# Función para mostrar el prompt con colores
+# Function to display the prompt with colors
 function ColoredRead-Host {
     param (
         [string]$message
@@ -17,7 +17,7 @@ function ColoredRead-Host {
     return $response
 }
 
-$response = ColoredRead-Host "¿Quieres instalar los programas? (y/n)"
+$response = ColoredRead-Host "Do you want to install the programs? (y/n)"
 
 if ($response -eq '' -or $response -eq 'y') {
     function Install-Program {
@@ -25,24 +25,24 @@ if ($response -eq '' -or $response -eq 'y') {
             [string]$programName
         )
         Write-Host " "
-        $response = ColoredRead-Host "Quieres instalar? $programName (y/n)"
+        $response = ColoredRead-Host "Do you want to install? $programName (y/n)"
         Write-Host " "
         if ($response -eq '' -or $response -eq 'y') {
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t`Instalando $programName" -ForegroundColor $infoColor
+            Write-Host "`t` `t`Installing $programName" -ForegroundColor $infoColor
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
             winget install --id $programName
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t` $programName ha sido instalado." -ForegroundColor $successColor
+            Write-Host "`t` `t` $programName has been installed." -ForegroundColor $successColor
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
         } else {
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t` $programName no será instalado." -ForegroundColor $errorColor
+            Write-Host "`t` `t` $programName will not be installed." -ForegroundColor $errorColor
             Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
         }
     }
 
-    # Instalar programas básicos
+    # Install basic programs
     Install-Program "Microsoft.VisualStudioCode"
     Install-Program "CoreyButler.NVMforWindows"
     Install-Program "Microsoft.WindowsTerminal"
@@ -57,31 +57,31 @@ if ($response -eq '' -or $response -eq 'y') {
     Install-Program "Chocolatey"
     
     Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-    Write-Host "`t` `t`La instalación de programas ha terminado!" -ForegroundColor $successColor
+    Write-Host "`t` `t`Program installation has finished!" -ForegroundColor $successColor
     Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
 } else {
     Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-    Write-Host "`t` `t`No se instalaran programas!" -ForegroundColor $errorColor
+    Write-Host "`t` `t`No programs will be installed!" -ForegroundColor $errorColor
     Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
 }
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-Write-Host "`t` `t`Instalando Terminal Icons..." -ForegroundColor $promptColor
+Write-Host "`t` `t`Installing Terminal Icons..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 # Terminal-Icons install
 Start-Process pwsh -ArgumentList '-NoProfile -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force"' -Wait
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-Write-Host "`t` `t`Instalando JetBrainsMono NerdFont..." -ForegroundColor $promptColor
+Write-Host "`t` `t`Installing JetBrainsMono NerdFont..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 # oh-my-posh font install
 Start-Process pwsh -ArgumentList "-NoProfile -Command `"$env:LOCALAPPDATA\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono`"" -Wait
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-Write-Host "`t` `t`Configurando archivos..." -ForegroundColor $promptColor
+Write-Host "`t` `t`Configuring files..." -ForegroundColor $promptColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
 
-# Copiar configuración de Windows Terminal
+# Copy Windows Terminal configuration
 $terminalConfigPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 if (-Not (Test-Path -Path $terminalConfigPath)) {
     New-Item -ItemType Directory -Force -Path $terminalConfigPath
@@ -89,7 +89,7 @@ if (-Not (Test-Path -Path $terminalConfigPath)) {
 
 Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\settings.json" -Destination "$terminalConfigPath\settings.json" -Force
 
-# Copiar configuración de PowerShell
+# Copy PowerShell configuration
 $profileDirectory = Split-Path -Path $PROFILE -Parent
 if (-Not (Test-Path -Path $profileDirectory)) {
     New-Item -ItemType Directory -Force -Path $profileDirectory
@@ -98,9 +98,9 @@ if (-Not (Test-Path -Path $profileDirectory)) {
 Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
 
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
-Write-Host "`t` `t`Configuracion Finalizada!" -ForegroundColor $infoColor
+Write-Host "`t` `t`Configuration Finished!" -ForegroundColor $infoColor
 Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
 
-# Abrir una nueva terminal y cerrar la actual
+# Open a new terminal and close the current one
 Start-Process pwsh
 exit
