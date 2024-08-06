@@ -44,7 +44,7 @@
       "experimental.retroTerminalEffect": false,
       "font": {
         "cellHeight": "1.2",
-        "face": "JetBrainsMono Nerd Font",
+        "face": "JetBrainsMono NF",
         "size": 12.0,
         "weight": "medium"
       },
