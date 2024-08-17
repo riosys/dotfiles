@@ -1,3 +1,4 @@
+-- dashboar main menu
 return {
     "nvimdev/dashboard-nvim",
     event = "VimEnter",

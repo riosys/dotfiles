@@ -1,3 +1,4 @@
+-- this is a colorscheme
 return {
     "catppuccin/nvim",
     name = "catppuccin",
