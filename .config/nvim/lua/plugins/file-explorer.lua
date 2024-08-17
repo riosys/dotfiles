@@ -8,6 +8,7 @@ return {
             },
             view = {
                 width = 30,
+                side = 'right',
             },
             renderer = {
                 group_empty = true,
@@ -15,6 +16,11 @@ return {
             filters = {
                 dotfiles = true,
             },
-        })
-    end,
+            actions = {
+                open_file = {
+                    quit_on_open = true
+                }
+            },
+        })  
+    end
 }
