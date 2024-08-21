@@ -1,113 +1,243 @@
-# Define colors using the Catppuccin Mocha theme
-$promptColor = "DarkGreen"  # F9E2AF
-$defaultColor = "Red"  # CDD6F4
-$successColor = "yellow"  # A6E3A1
-$errorColor = "DarkMagenta"  # F38BA8
-$infoColor = "DarkCyan"  # 89DCEB
+# Define foreground colors
+$primary = "DarkMagenta"
+$secondary = "DarkCyan"
+$failed = "Red"
+$success = "Green"
+$warning = "Yellow"
+# Define Background
+$textWhite = "White"
+$textBlack = "Black"
 
-# Function to display the prompt with colors
-function ColoredRead-Host {
-    param (
-        [string]$message
-    )
-    $origColor = $Host.UI.RawUI.ForegroundColor
-    $Host.UI.RawUI.ForegroundColor = $promptColor
-    $response = Read-Host $message
-    $Host.UI.RawUI.ForegroundColor = $defaultColor
-    return $response
+Clear-Host
+# Primer conjunto de mensajes
+Write-Host " STARTING ARMANDO-RIOS SETUP SCRIPT... " -ForegroundColor $textBlack -Background $primary
+
+# Esperar 3 segundos
+Start-Sleep -Seconds 3
+
+Clear-Host
+
+# Ruta al ejecutable de Git
+$gitPath = "C:\Program Files\Git\cmd\git.exe"
+# Comando Git para clonar el repositorio
+$clone = "clone"
+#repository
+$repo = "https://github.com/armando-rios/dotfiles.git"
+
+$ruteClone = ".dotfiles"
+# Ejecutar Git
+# & $gitPath $clone $repo
+
+# Start-Sleep -Seconds 2
+
+function Is-GitInstalled {
+    try {
+        git --version > $null 2>&1
+        return $true
+    } catch {
+        return $false
+    }
 }
 
-$response = ColoredRead-Host "Do you want to install the programs? (y/n)"
 
-if ($response -eq '' -or $response -eq 'y') {
-    function Install-Program {
-        param (
-            [string]$programName
-        )
+function Install-Git {
+    Write-Host "Git no está instalado. ¿Deseas instalarlo ahora? (S/N)" -ForegroundColor $textWhite -Background $Yellow
+    $input = Read-Host
+
+    if ($input -eq 'S' -or $input -eq 's') {
+        winget install --id Git.Git -e
+        Write-Host "Git se ha instalado correctamente." -ForegroundColor $textBlack -Background $success
+    } else {
+        Write-Host "Git no se instalará. Algunas configuraciones pueden fallar si este no esta instalado." -ForegroundColor $textBlack -Background $Yellow
+    }
+}
+
+
+function Show-SelectionMenu {
+    param (
+        [string[]]$optionList,
+        [string]$prompt
+    )
+    
+    $selectedOptions = @()
+    $index = 0
+    $maxIndex = $optionList.Length - 1
+
+    Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+    Write-Host " "
+    Write-Host $prompt -ForegroundColor Blue
+    Write-Host " Use the up and down arrow keys to navigate. Press [Space] to select/deselect, and [Enter] to continue. " -ForegroundColor $textBlack -Background $secondary
+
+    while ($true) {
+        Clear-Host
+        Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
         Write-Host " "
-        $response = ColoredRead-Host "Do you want to install? $programName (y/n)"
+        Write-Host "Use the up and down arrow keys to navigate. Press [Space] to select/deselect, and [Enter] to continue." -ForegroundColor $textBlack -Background $secondary
         Write-Host " "
-        if ($response -eq '' -or $response -eq 'y') {
-            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t`Installing $programName" -ForegroundColor $infoColor
-            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            winget install --id $programName
-            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t` $programName has been installed." -ForegroundColor $successColor
-            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-        } else {
-            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-            Write-Host "`t` `t` $programName will not be installed." -ForegroundColor $errorColor
-            Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
+        Write-Host $prompt -ForegroundColor Blue
+
+        for ($i = 0; $i -lt $optionList.Length; $i++) {
+            if ($i -eq $index) {
+                Write-Host "> " -NoNewline -ForegroundColor Yellow
+            } else {
+                Write-Host "  " -NoNewline
+            }
+
+            if ($selectedOptions -contains $optionList[$i]) {
+                Write-Host "[X] $($optionList[$i])" -ForegroundColor Green
+            } else {
+                Write-Host "[ ] $($optionList[$i])" 
+            }
+        }
+
+        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
+
+        switch ($key) {
+            38 { # Flecha arriba
+                $index = if ($index -gt 0) { $index - 1 } else { $maxIndex }
+            }
+            40 { # Flecha abajo
+                $index = if ($index -lt $maxIndex) { $index + 1 } else { 0 }
+            }
+            32 { # Espacio
+                if ($selectedOptions -contains $optionList[$index]) {
+                    $selectedOptions = $selectedOptions -ne $optionList[$index]
+                } else {
+                    $selectedOptions += $optionList[$index]
+                }
+            }
+            13 { # Enter
+                return $selectedOptions
+            }
         }
     }
+}
 
-    # Install basic programs
-    Install-Program "Microsoft.VisualStudioCode"
-    Install-Program "CoreyButler.NVMforWindows"
-    Install-Program "Microsoft.WindowsTerminal"
-    Install-Program "JanDeDobbeleer.OhMyPosh"
-    Install-Program "Microsoft.Powershell"
-    Install-Program "Python.Python.3.12"
-    Install-Program "Discord.Discord"
-    Install-Program "Neovim.Neovim"
-    Install-Program "Google.Chrome"
-    Install-Program "Valve.Steam"
-    Install-Program "Brave.Brave"
-    Install-Program "Chocolatey"
+function Install-Program {
+    param (
+        [string]$programName
+    )
+    winget install --id $programName
+}
+
+# Verifica si Git está instalado
+if (-not (Is-GitInstalled)) {
+    Install-Git
+}
+
+# Primera sección: Selección de tareas
+$tareas = @(
+    "Instalación completa",
+    "Instalar programas",
+    "Configurar e instalar terminal"
+)
+
+$selectedTareas = Show-SelectionMenu -optionList $tareas -prompt "Selecciona las tareas que deseas realizar:"
+
+# Si se selecciona "Instalación completa", automáticamente selecciona todas las opciones
+if ($selectedTareas -contains "Instalación completa") {
+    $selectedTareas = @("Instalar programas", "Configurar e instalar terminal")
+}
+
+# Segunda sección: Selección de programas si "Instalar programas" está seleccionado
+if ($selectedTareas -contains "Instalar programas") {
+    $programs = @(
+        "Microsoft.VisualStudioCode",
+        "CoreyButler.NVMforWindows",
+        "Microsoft.WindowsTerminal",
+        "JanDeDobbeleer.OhMyPosh",
+        "Microsoft.Powershell",
+        "Python.Python.3.12",
+        "Discord.Discord",
+        "Neovim.Neovim",
+        "Google.Chrome",
+        "Valve.Steam",
+        "Brave.Brave",
+        "Chocolatey"
+    )
+
+    $selectedPrograms = Show-SelectionMenu -optionList $programs -prompt "Selecciona los programas que deseas instalar:"
+
+    foreach ($program in $selectedPrograms) {
+        Clear-Host
+        Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+        Write-Host " "
+        Write-Host "`t` ■ Instalando $program " -ForegroundColor $textWhite -Background Blue
+        Install-Program -programName $program
+    }
+    Clear-Host
+    Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+    Write-Host " "
+    Write-Host " ● Programas Instalados " -ForegroundColor $textBlack -Background $success
+}
+
+# Ejemplo de configuración e instalación de terminal si está seleccionado
+if ($selectedTareas -contains "Configurar e instalar terminal") {
+
+    & $gitPath $clone $repo $ruteClone
+
+    Clear-Host
+    Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+    Write-Host " "
+    Write-Host " ● Programas Instalados " -ForegroundColor $textBlack -Background $success
+    Write-Host " "
+    Write-Host "`t` Installing Terminal Icons... " -ForegroundColor $textBlack -Background $secondary
+
+    # Terminal-Icons install
+    Start-Process pwsh -ArgumentList '-NoProfile -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force"' -Wait
+
+    Clear-Host
+    Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+    Write-Host " "
+    Write-Host " ● Programas Instalados " -ForegroundColor $textBlack -Background $success
+    Write-Host " ● Terminal Icons Installed " -ForegroundColor $textBlack -Background $success
+    Write-Host " "
+    Write-Host "`t` Installing JetBrainsMono NerdFont... " -ForegroundColor $textBlack -Background $secondary
+
+    # oh-my-posh font install
+    Start-Process pwsh -ArgumentList "-NoProfile -Command `"$env:LOCALAPPDATA\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono`"" -Wait
+
+    Clear-Host
+    Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+    Write-Host " "
+    Write-Host " ● Programas Instalados " -ForegroundColor $textBlack -Background $success
+    Write-Host " ● Terminal Icons Installed " -ForegroundColor $textBlack -Background $success
+    Write-Host " ● Oh-my-posh installed and configured fonts " -ForegroundColor $textBlack -Background $success
+    Write-Host " "
+    Write-Host "`t` Configuring files... " -ForegroundColor $textBlack -Background $secondary
+
+    Start-Sleep -Seconds 2
+    Clear-Host
+    Write-Host " RUNNING CONFIGURATION SCRIPT R105 " -ForegroundColor $textBlack -Background $primary
+    Write-Host " "
+    Write-Host " ● Programas Instalados " -ForegroundColor $textBlack -Background $success
+    Write-Host " ● Terminal Icons Installed " -ForegroundColor $textBlack -Background $success
+    Write-Host " ● Oh-my-posh installed and configured fonts " -ForegroundColor $textBlack -Background $success
+    Write-Host " ● File configs required configured " -ForegroundColor $textBlack -Background $success
+    # Copy Windows Terminal configuration
+    $terminalConfigPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+    if (-Not (Test-Path -Path $terminalConfigPath)) {
+        New-Item -ItemType Directory -Force -Path $terminalConfigPath
+    }
+
+    Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\settings.json" -Destination "$terminalConfigPath\settings.json" -Force
+
+    # Copy PowerShell configuration
+    # Asigna manualmente la ruta correcta a la variable $PROFILE
+    $PROFILE = "$env:USERPROFILE\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+
+    # Obtiene el directorio del perfil
+        $profileDirectory = Split-Path -Path $PROFILE -Parent
     
-    Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-    Write-Host "`t` `t`Program installation has finished!" -ForegroundColor $successColor
-    Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-} else {
-    Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
-    Write-Host "`t` `t`No programs will be installed!" -ForegroundColor $errorColor
-    Write-Host "`t`----------------------------------------------------" -ForegroundColor $infoColor
+    # Verifica si el directorio del perfil no existe y lo crea si es necesario
+    if (-Not (Test-Path -Path $profileDirectory)) {
+        New-Item -ItemType Directory -Force -Path $profileDirectory
+    }
+    
+    # Copia el archivo de perfil de PowerShell al destino especificado en $PROFILE
+    Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
+    
 }
 
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-Write-Host "`t` `t`Installing Terminal Icons..." -ForegroundColor $promptColor
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-# Terminal-Icons install
-Start-Process pwsh -ArgumentList '-NoProfile -Command "Install-Module -Name Terminal-Icons -Repository PSGallery -Force"' -Wait
-
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-Write-Host "`t` `t`Installing JetBrainsMono NerdFont..." -ForegroundColor $promptColor
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-# oh-my-posh font install
-Start-Process pwsh -ArgumentList "-NoProfile -Command `"$env:LOCALAPPDATA\Programs\oh-my-posh\bin\oh-my-posh.exe font install JetBrainsMono`"" -Wait
-
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-Write-Host "`t` `t`Configuring files..." -ForegroundColor $promptColor
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $defaultColor
-
-# Copy Windows Terminal configuration
-$terminalConfigPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-if (-Not (Test-Path -Path $terminalConfigPath)) {
-    New-Item -ItemType Directory -Force -Path $terminalConfigPath
-}
-
-Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\settings.json" -Destination "$terminalConfigPath\settings.json" -Force
-
-# Copy PowerShell configuration
-# Asigna manualmente la ruta correcta a la variable $PROFILE
-$PROFILE = "$env:USERPROFILE\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-
-# Obtiene el directorio del perfil
-$profileDirectory = Split-Path -Path $PROFILE -Parent
-
-# Verifica si el directorio del perfil no existe y lo crea si es necesario
-if (-Not (Test-Path -Path $profileDirectory)) {
-    New-Item -ItemType Directory -Force -Path $profileDirectory
-}
-
-# Copia el archivo de perfil de PowerShell al destino especificado en $PROFILE
-Copy-Item -Path "$env:USERPROFILE\.dotfiles\terminal\Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
-
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
-Write-Host "`t` `t`Configuration Finished!" -ForegroundColor $infoColor
-Write-Host "`t`----------------------------------------------------" -ForegroundColor $promptColor
-
-# Open a new terminal and close the current one
-Start-Process pwsh
-exit
+Write-Host " "
+Write-Host " Tareas completadas cierra esta terminal e inicia otra. " -ForegroundColor $textBlack -Background $warning
