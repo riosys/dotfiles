@@ -45,7 +45,7 @@
     {
         "defaults": 
         {
-            "adjustIndistinguishableColors": "always",
+            "adjustIndistinguishableColors": "never",
             "antialiasingMode": "grayscale",
             "colorScheme": "Dracula",
             "experimental.retroTerminalEffect": false,
