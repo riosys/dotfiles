@@ -24,7 +24,7 @@ $clone = "clone"
 #repository
 $repo = "https://github.com/armando-rios/dotfiles.git"
 
-$ruteClone = ".dotfiles"
+$ruteClone = "$env:USERPROFILE\.dotfiles"
 # Ejecutar Git
 # & $gitPath $clone $repo
 
@@ -41,7 +41,7 @@ function Is-GitInstalled {
 
 
 function Install-Git {
-    Write-Host "Git no está instalado. ¿Deseas instalarlo ahora? (S/N)" -ForegroundColor $textWhite -Background $Yellow
+    Write-Host "Git no está instalado. ¿Deseas instalarlo ahora? (S/N)" -ForegroundColor $textBlack -Background $warning
     $input = Read-Host
 
     if ($input -eq 'S' -or $input -eq 's') {
