@@ -19,7 +19,7 @@
         },
         {
           "background": "#ff81cb",
-          "foreground": "p:white",
+          "foreground": "p:black",
           "properties": {
             "windows": "",
             "linux": "\uf17c",
