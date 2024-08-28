@@ -153,7 +153,8 @@ if ($selectedTareas -contains "Instalar programas") {
         "Google.Chrome",
         "Valve.Steam",
         "Brave.Brave",
-        "Chocolatey.Chocolatey"
+        "Chocolatey.Chocolatey",
+        "Obsidian.Obsidian"
     )
 
     $selectedPrograms = Show-SelectionMenu -optionList $programs -prompt "Selecciona los programas que deseas instalar:"
